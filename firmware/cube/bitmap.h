@@ -1325,6 +1325,66 @@ const static uint8_t __B[8] PROGMEM =
 	0b11111110
 };
 
+const static uint8_t ___i[8] PROGMEM =
+{
+	0b00011000,
+	0b00000000,
+	0b00011000,
+	0b00011000,
+	0b00011000,
+	0b00011000,
+	0b00011000,
+	0b00001000
+};
+
+const static uint8_t ___n[8] PROGMEM =
+{
+	0b00000000,
+	0b00000000,
+	0b11111000,
+	0b11111100,
+	0b11001100,
+	0b11001100,
+	0b11001100,
+	0b11001100
+};
+
+const static uint8_t ___t[8] PROGMEM =
+{
+	0b01100000,
+	0b01100000,
+	0b01111000,
+	0b01111000,
+	0b01100000,
+	0b01100000,
+	0b01111000,
+	0b00111000
+};
+
+const static uint8_t ___e[8] PROGMEM =
+{
+	0b00000000,
+	0b01111100,
+	0b11000110,
+	0b11000110,
+	0b11111110,
+	0b11000000,
+	0b11000110,
+	0b01111100
+};
+
+const static uint8_t ___l[8] PROGMEM =
+{
+	0b00110000,
+	0b00110000,
+	0b00110000,
+	0b00110000,
+	0b00110000,
+	0b00110000,
+	0b00110000,
+	0b00010000
+};
+
 const static uint8_t* const bitmapTable[] PROGMEM =
 {
 	__, _EXCLAIMATION, _QUOTE, _POUND, _DOLLAR, _PERCENT,
@@ -1343,7 +1403,8 @@ const static uint8_t* const bitmapTable[] PROGMEM =
 const static uint8_t* const customBitmapTable[] PROGMEM =
 {
 	__n, __i, __t, __a, __c, __k, __u,
-	__L, __E, __D, __C, __U, __B, __E
+	__L, __E, __D, __C, __U, __B, __E,
+    ___i, ___n, ___t, ___e, ___l
 };
 
 
@@ -1351,7 +1412,7 @@ uint8_t* get_bitmap(unsigned char character)
 {
 	static uint8_t bitmap[8];
 
-	if ((character < 32) || (character > 141))
+	if ((character < 32) || (character > 146))
 	{
 		character = 32;
 	}
@@ -1367,4 +1428,3 @@ uint8_t* get_bitmap(unsigned char character)
 
 	return &bitmap[0];
 }
-

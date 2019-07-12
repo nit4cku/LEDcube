@@ -29,7 +29,7 @@
 #define _VOXEL_H_
 
 #include "Arduino.h"
-#include "lib8tion.h"
+//#include "FastLED.h"
 
 template <class T>
 class CVoxel
@@ -42,6 +42,7 @@ class CVoxel
 
 	CVoxel(void);
 	CVoxel(const T x, const T y, const T z);
+    CVoxel(const CVoxel<T>& voxel);
 
 	CVoxel& operator=(const T value);
 	CVoxel& operator+=(const T value);
@@ -103,6 +104,16 @@ CVoxel<T>::CVoxel(void) { }
 // Constructor
 template <class T>
 CVoxel<T>::CVoxel(const T _x, const T _y, const T _z) : x(_x), y(_y), z(_z) { }
+
+
+// Copy Constructor
+template <class T>
+CVoxel<T>::CVoxel(const CVoxel<T>& voxel)
+{
+    x = voxel.x;
+    y = voxel.y;
+    z = voxel.z;
+}
 
 
 template <class T>

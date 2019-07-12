@@ -38,29 +38,37 @@
 
 const uint16_t DELAY_CONSTANT_C = 1750;
 
+#if defined(__AVR__)
+extern "C" {
+void* memcpy_fast(void* dst, const void* src, uint16_t num) __attribute__ ((noinline));
+}
+#else
+#define memcpy_fast memcpy
+#endif
+
 class CCube
 {
 	public:
 
-	enum state_t : uint8_t
+	enum class State : uint8_t
 	{
 		OFF,
 		ON,
 		INV,
-	} STATE;
+	};
 
-	enum polarity_t : uint8_t
+	enum class Polarity : uint8_t
 	{
 		POSITIVE,
 		NEGATIVE,
-	} POLARITY;
+	};
 
-	enum axis_t : uint8_t
+	enum class Axis : uint8_t
 	{
-		AXIS_X,
-		AXIS_Y,
-		AXIS_Z,
-	} AXIS;
+        X,
+		Y,
+		Z,
+	};
 
 	typedef struct FCdStruct
 	{
@@ -80,9 +88,6 @@ class CCube
 	//typedef VCd			type_voxel;
 	typedef CVoxel<uint8_t>	type_voxel;
 	typedef FCd				type_float_cd;
-	typedef uint8_t			type_axis;
-	typedef uint8_t			type_state;
-	typedef uint8_t			type_polarity;
 	typedef uint8_t			type_cube[8][8];
 
 	type_cube cube;
@@ -92,27 +97,28 @@ class CCube
 	CCube(void);
 
 	// Transition Functions
-	void TransitionShift(const type_axis axis, const type_polarity polarity, const uint8_t delay);
-	void TransitionScroll(const type_axis axis, const type_polarity polarity, const uint8_t delay);
-	void TransitionPlane(const type_axis axis, const type_polarity polarity, const uint8_t state, const uint8_t delay);
+	void TransitionShift(const Axis axis, const Polarity polarity, const uint8_t delay);
+	void TransitionScroll(const Axis axis, const Polarity polarity, const uint8_t delay);
+	void TransitionPlane(const Axis axis, const Polarity polarity, const State state, const uint8_t delay);
 
 	// Translate Functions
-	void TranslateScroll(const type_axis axis, int8_t value);
-	void TranslateShift(const type_axis axis, const int8_t value);
+	void TranslateScroll(const Axis axis, int8_t value);
+	void TranslateShift(const Axis axis, const int8_t value);
 
 	// Draw Functions
-	void SetVoxel(const type_voxel &voxel, const type_state state);
-	void SetLine(type_voxel v0, type_voxel v1, const type_state state);
-	void SetPlane(const type_axis axis, const uint8_t index, const type_state state);
-	//void set_character(const type_axis axis, const uint8_t index, const char character);
+	void SetVoxel(const type_voxel &voxel, const State state);
+	void SetLine(type_voxel v0, type_voxel v1, const State state);
+	void SetPlane(const Axis axis, const uint8_t index, const State state);
+	//void set_character(const Axis axis, const uint8_t index, const char character);
 	void SetCube(const uint8_t pattern);
-	void SetWireframeBox(const type_voxel &v0, const type_voxel &v1, const type_state state);
-	void SetSphere(const type_float_cd &fcd, float radius, const type_state state);
-	void SetCuboid(type_voxel v0, type_voxel v1, const type_state state);
-	void SetWireframe(const type_voxel &v0, const type_voxel &v1, const type_state state);
+	void SetWireframeBox(const type_voxel &v0, const type_voxel &v1, const State state);
+    void SetCircle(const type_float_cd &fcd, float radius, const State state);
+	void SetSphere(const type_float_cd &fcd, float radius, const State state);
+	void SetCuboid(type_voxel v0, type_voxel v1, const State state);
+	void SetWireframe(const type_voxel &v0, const type_voxel &v1, const State state);
 
 	// Utility Functions
-	uint8_t GetVoxel(const type_voxel &voxel);
+	State GetVoxel(const type_voxel &voxel);
 	void Copy(CCube& buffer);
 
 	private:
