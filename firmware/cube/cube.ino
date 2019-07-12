@@ -73,7 +73,7 @@ enum portd_pins_t : uint8_t
 };
 
 // Return integral value of Enumeration
-template<typename T> constexpr auto getValue(const T e)
+template<typename T> constexpr uint8_t getValue(const T e)
 {
     //return static_cast<std::underlying_type<e>::type>(e);
     return static_cast<uint8_t>(e);
